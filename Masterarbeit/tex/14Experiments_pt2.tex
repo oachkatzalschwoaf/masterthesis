@@ -1,0 +1,106 @@
+
+Up until this point, the focus was mainly on the single scores, mostly from the same type and method, to improve the separation between the scores of the \ac{MSA} superfamily and the others. The following section analyzes the reverse-corrected scores and the simple-corrected scores from the same method together.
+ 
+
+Figure \ref{fig:scatter} shows scatterplots with the simple-corrected scores on the horizontal axis and the reverse-corrected scores on the vertical axis, generated from the original score with the primary structure only on top, and including the secondary structure information below. For both approaches, Viterbi and forward scoring, the improvements using the secondary structure are obvious, as the separation between the superfamily scores and the others increases. 
+However, this result was already expected based on the figures provided in this section. The same plot for all other variations of the \ac{MSA} \texttt{c.67.1} shown in this section can be found in Appendix \ref{app:APPPCAcorrScores}. 
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=\textwidth]{fig/scatter}
+	\end{center}
+	\caption{Scatterplots of the corrected scores with and without secondary structure information.}	
+	\label{fig:scatter}
+\end{figure}
+
+This two-dimensional representation with its variety of post-processing methods is used in the following section for the evaluation of all 69 \acp{MSA} with varying weighting methods.
+
+
+\section{Evaluation of the Different Weighting Methods}
+\label{sec:weightingMeth}
+
+The different weighting methods and their parameters described in  Section \ref{sec:training} will be tested by scoring all 69 \acp{MSA} against the \ac{SCOP} database with different settings. The following five configurations will be explained in more detail.
+
+\begin{itemize}
+\item \texttt{M1\_025\_1} uses the weighting approach in (\ref{eq:mix1}), with a pseudo-count of 1 for the secondary structure emission probabilities and a threshold of 0.25 for the highest primary structure emission probability. 
+
+\item \texttt{M1\_025\_3} uses the same approach as above, except with a pseudo-count of 3.
+
+\item \texttt{M2\_025\_1\_3} uses the weighting approach in (\ref{eq:mix2}), also with a threshold of 0.25 and a pseudo-count of 1. The scale factor $k$ is set to 3. 
+
+\item \texttt{M2\_025\_1\_5} uses the same parameters as M2\_025\_1\_3 except with a scaling factor of 5.
+
+\item \texttt{M3\_100\_5} uses the Shannon approach in (\ref{eq:shannonfinal}) with a pseudo-count of 5 for generating the secondary structure emission probabilities. A threshold of 100\,\% is also employed, resulting in only the mixed probabilities being used for scoring.
+\end{itemize}
+
+For example, with the \ac{MSA} \texttt{c.67.1}, the threshold of 0.25 for the first four approaches results in 272 columns where the highest emission probability is below the threshold; therefore, the mixed probabilities are used, containing both the primary and the secondary structure. For the other 117 columns of the \ac{pHMM}, only the emission probabilities for the primary structure are used. For the last method, using the Shannon entropy, it was found that the best results are achieved using the mixed probabilities only.
+
+The different methods over the \acp{MSA} are compared in MATLAB as listed in \ref{LST_svmMat} by generating a \ac{ROC} curve. A \ac{ROC} curve compares the \ac{TPR} against the \ac{FPR} for varying thresholds of a classifier and is used to compare the quality of classifiers. The \ac{TPR} measures the proportion of positives that are correctly classified as such, while the \ac{FPR} identifies negatives that are wrongly classified as positives (see \cite[p. 34--35]{Duda.2001}).
+
+\lstset{
+keywords={fitcsvm, fitPosterior, resubPredict, perfcurve},numbers=left, captionpos=b,	tabsize=4, numbersep=10pt, commentstyle=\color{dkgreen}, keywordstyle=\color{blue},
+	showspaces=false, 
+basicstyle  = \fontfamily{pcr} \fontsize{9pt}{10pt} \selectfont \singlespacing ,}
+\begin{lstlisting}[caption=Matlab implementation for generating the \ac{ROC} curve. ,
+label=LST_svmMat]
+mdlSVM = fitcsvm(hmmScores,classes,'Standardize',true);
+mdlSVM = fitPosterior(mdlSVM);
+[~,score_svm] = resubPredict(mdlSVM);
+[X,Y,T,AUC] = perfcurve(hmmScores,score_svm(:,mdlSVM.ClassNames),'true');
+plot(X,Y)
+\end{lstlisting}
+
+ For each method and \ac{MSA}, the function \textit{fitcsvm} trains a binary \ac{SVM} classifier from \textit{hmmScores}, containing the two dimensions for the reverse-corrected and the simple-corrected scores and the \textit{classes}, indicating whether the score relates to the tested superfamily or not. The function \textit{fitPosterior} calculates the posterior probabilities for all scores, allowing \textit{perfcurve} to generate the \ac{ROC} curve.
+
+
+
+Figure \ref{fig:roc} shows the \ac{ROC} curve generated for the superfamily \texttt{c.67.1} using the methods described above, as well as the original score using only the primary structure listed as \textit{AA}. The scores used are the two corrected Viterbi scores, with the \mbox{reverse-corrected} Viterbi as the first principal component from the score with and without secondary structure information.
+The six scatterplots used for this \ac{ROC} plot are shown in Appendix \ref{app:APPPCAcorrScoresWeight}.
+As an optimal classifier would be a rectangular graph with 100\% \ac{TPR}  at 0\% \ac{FPR}, the improvement of the new methods using secondary structure information is obvious.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{fig/roc}
+	\end{center}
+	\caption{\acs{ROC} curve for the \acs{MSA} c.67.1.}
+	\label{fig:roc}
+\end{figure}
+
+For comparison of the different methods, the \ac{ROC} curves can be ranked with the \ac{AUC} score. The \ac{AUC} score combines the whole \ac{ROC} curve into one number in the range of 0--1 and is calculated by the integral of the curve. 
+
+Table \ref{tab:ROC} provides an overview of the selected methods for the \ac{MSA}. However, the table lists only 56 \acp{MSA}, as those with  a variation of the AUC score below 1\% were filtered out. Column \textit{AA} lists the \ac{AUC} score using only the primary structure. The highest \ac{AUC} score for each \ac{MSA} is highlighted in green, while all scores below those obtained using the original method  are highlighted in red. To summarize the table, it can be said that except for a few scores, the secondary structure information improves the quality of the homology detection. For all \acp{MSA}, the original score was improved by at least one method including the secondary structure. The best results were achieved with the method \texttt{M2\_025\_1\_5}, with only two scores below the original score and 29 with the highest rank. 
+
+
+The \ac{AUC} scores for all \acp{MSA} were also compared to the different corrected scores and their combinations discussed in Section \ref{ssec:Scores_Changes}. 
+The results are summarized in Table \ref{tab:ovAllAUC}, with the first number of each cell providing the number of scores above those of the original method using only the primary structure. The second number counts the \acs{MSA} with the highest \ac{AUC} scores compared to all other methods. The table shows that the method \texttt{M2\_025\_1\_5} performed best for the most score types, compared to the other methods. The best score type varies across the different methods. For the highest-ranked method, the Viterbi method performs better than the old method for 65 of 69 scores.  However, over all methods, both \ac{PCA} variations for the Viterbi yield a larger improvement than the plain scores. The last column represents the combination of the Viterbi and forward scores. 
+In general, this score type performs worse than the other types, with seven \acp{MSA} where the original method has higher scores than all methods that use the secondary structure information.
+
+
+\definecolor{Gray}{gray}{0.9}
+\newcolumntype{g}{>{\columncolor{Gray}}r}
+\newcolumntype{h}{>{\columncolor{Gray}}l}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|g:h|r:l|g:h|r:l|g:h|}
+         \hline
+ \multirow{2}{*}{\backslashbox{\small{Method}}{\small{Score-type}}}      & \multicolumn{10}{c|}{ \# scores with AUC > AA ; \# highest scores for method } \\
+              & \multicolumn{2}{c|}{Viterbi}                       & \multicolumn{2}{c|}{Forward} & \multicolumn{2}{c|}{PCA-Vit.} & \multicolumn{2}{c|}{PCA-For.} & \multicolumn{2}{c|}{PCA-VitFor} \\ \hline
+AA     		  & 					  			&  \: 1 			   & 			 & \: 1      			&               & \: 2          &               &  \: 2    			       	&                  & \: 7  \\ \hline
+M1\_025\_1    & 55                    			& 13                   & 54          & 12         			& 60            & \: 8          & 62            & 12     			        & 55              & 11             \\ \hline
+M1\_025\_3    & 57                    			& 16                   & 56          & 16         			& 59            & 16            & 63            & 11       					& 51              & 13             \\ \hline
+M2\_025\_1\_3 & 49                    			& \: 4                 & 50          & \: 4         		& 54            & \: 4          & 58            & \: 2    			        & 53              & \: 5              \\ \hline
+M2\_025\_1\_5 & 65                    			& 28                   & 64          & 28         			& 64            & 33            & 62            & 29       					& 56              & 27             \\ \hline
+M3\_100\_5    & \quad 55             			& \: 7            & \quad 46         & \: 8          		& \quad 54      & \: 6            & \quad 59      & 13             & \: \: 55              & \: 6        \\  \hline
+\end{tabular}
+	\caption[Performance of different scoring methods.]{Performance of different scoring methods for the corrected scores over all 69 \acsp{MSA}. First column lists number of \acs{AUC} scores above the score using primary structure only (AA), second column number of highest scores for the method. }
+	\label{tab:ovAllAUC}
+
+\end{table}
+
+The \ac{AUC} scores for each score type and the method of all 69 \acp{MSA} represented in Table \ref{tab:ovAllAUC}, including their associated scatterplots and ROC curves, can be found on the attached disk (see Appendix \ref{app:AppDisk}).
+
+
+
+\input{tex/14_1tabRoc}
+

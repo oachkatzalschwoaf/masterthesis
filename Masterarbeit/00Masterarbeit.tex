@@ -1,0 +1,158 @@
+	\documentclass
+[
+a4paper,
+english,
+openright,                    % Kap.beginn immer rechts! (fkt. nur bei report, nicht bei article)
+12pt                          % ersatzweise 12pt, wenn mehr Seiten entstehen sollen
+]
+{report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Dokumenteneigenschaften
+
+\newcommand{\Author}{Christian Winkler, BSc} 
+\newcommand{\Title}{Expert Tuned Profile Hidden Markov Models for Primary and Secondary Structure Based Homology Prediction in Bioinformatics}
+\newcommand{\Keywords}{Homology Detection, Sequence Similarity, Hidden Markov Model, Protein Alignment, Bioinformatics }
+\newcommand{\Advisor}{FH-Prof Univ.- Doz. Mag. Dr. Stefan Wegenkittl}
+\newcommand{\Birthdate}{16.06.1988}
+\newcommand{\EnrolNum}{1510581041}
+\newcommand{\VenueMonthYear}{Salzburg, September 2018}
+\newcommand{\VenueDate}{Salzburg, September 2018}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Layout zusammengestellt von Richard Wanger im WS 2015/2016. Verschiedene Vorlagen wurden bei der Erstellung
+% kombiniert und nach dem Masterleitfaden (Stand: Oktober 2015) adaptiert. Verwendung ohne Gewähr!
+
+\usepackage{style}		%alle packages und Formatvorlagen befinden sich in dieser Datei
+\usepackage{colortbl}
+
+\usepackage{slashbox,multirow}
+\usepackage{arydshln}
+
+%%%%%%%%%%%%%%% TODO-zeug ########################
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+
+%\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+%\newcommandx{\improvement}[2][1=]{\todo[linecolor=yellow,backgroundcolor=yellow!25,bordercolor=yellow,#1]{#2}}
+%\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+%\newcommand{\todobox}[1]{\fcolorbox{red}{yellow}{#1}\todo{#1}}
+
+
+\newcommand{\missing}[1]{\todo[inline]{#1}}
+\newcommand{\unsure}[1]{\todo[disable]{#1}}
+\newcommand{\change}[1]{\todo[disable]{#1}}
+\newcommand{\info}[1]{\todo[disable]{#1}}
+\newcommand{\improvement}[1]{\todo[disable]{#1}}
+\newcommand{\thiswillnotshow}[1]{\todo[disable]{#1}}
+\newcommand{\todobox}[1]{\fcolorbox{red}{yellow}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%% spezielle sachen
+\newcommand{\angstrom}{\textup{\AA}}
+
+% wegen sachen wie \textmu
+\usepackage{textcomp}
+
+% 4te Ebene in Gliedwerung
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+
+\usepackage{rotating}
+%\usepackage{rotating}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORGANISATORISCHES
+
+\begin{document}
+\include{tex/01Titelblatt}
+\pagenumbering{roman} 
+\include{tex/02EidesstattlicheErklaerung}
+\include{tex/03InfosAbstract}
+%\include{04Danksagung}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%VERZEICHNISSE
+
+\tableofcontents
+\protect \addcontentsline{toc}{chapter}{Contents}
+
+\renewcommand{\nomname}{List of Abbreviations}
+\include{tex/05Abkuerzungsverzeichnis}
+
+\listoffigures
+\protect \addcontentsline{toc}{chapter}{List of Figures}
+
+\listoftables
+\protect \addcontentsline{toc}{chapter}{List of Tables}
+\newpage
+%\lstlistoflistings
+%\protect \addcontentsline{toc}{chapter}{Listings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%INHALT
+
+\setcounter{page}{0}
+    \pagenumbering{arabic}
+    \setcounter{page}{1}
+\input{tex/10Introduction}
+\input{tex/11Background}
+\input{tex/11Database}
+\input{tex/11PHMM}
+\input{tex/11StrEstimation}
+\input{tex/12SSPrediction}
+\input{tex/13Implement}
+\input{tex/14Experiments}
+\input{tex/14Experiments1}
+
+\input{tex/14Experiments_pt2}
+
+\input{tex/14Experiments_pt3}
+
+\input{tex/50Conclusion}
+
+
+
+%\include{20TBDChapters}
+
+%\include{50Samples}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LITERATURVERZEICHNIS
+
+\interlinepenalty=10000 % Literatureinträge: Absätze zusammenhalten
+%\clearpage
+\addcontentsline{toc}{chapter}{Bibliography}
+\singlespace
+
+% literaturverzeichnis soll flushleft sein
+%\begin{flushleft} 
+\bibliography{bib/12bibliografie}
+%\end{flushleft}
+\interlinepenalty=100
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ANHAENGE
+
+
+%%\addcontentsline{toc}{chapter}{Appendix}
+
+\begin{appendix}
+%\include{tex/append/AppendAAStruct}                    % E
+\include{tex/append/PPAA}
+\include{tex/append/APP_DVD}
+\include{tex/append/MSAc671}
+\include{tex/append/APP_SCATTER_c_67_1}
+\include{tex/append/c671_ROC_scatter}
+%\include{tex/append/PCA_Scores}
+\end{appendix}
+
+
+%\listoftodos[TODO Notes]
+
+\end{document}

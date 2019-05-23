@@ -1,0 +1,234 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} SEITENEINTEILUNG
+\usepackage[paper=a4paper,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm,verbose]{geometry}
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} ZEILENABSTAND
+\usepackage{setspace}		  % 1.5 Zeilenabstand
+\onehalfspacing
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} KOPFZEILE
+\setlength{\headheight}{1.5cm}		    % Legt die Höhe des Leerraumes fest, der am oberen Seitenrand für eine Kopfzeile reserviert wird. 
+\usepackage{fancyhdr}	
+\pagestyle{fancy}				% Define Headers
+
+
+
+
+\newlength\FHoffset
+\setlength\FHoffset{0cm}
+\addtolength\headwidth{2\FHoffset}
+\fancyheadoffset{\FHoffset}
+% these lengths will control the headrule trimming to the left and right 
+\newlength\FHleft
+\newlength\FHright
+% here the trimmings are controlled by the user
+\setlength\FHleft{1cm}
+\setlength\FHright{0cm}
+
+
+
+
+
+
+%\fancyheadoffset{1 cm} 
+%% todo: probleme nach section!!!
+%\renewcommand{\sectionmark}[1]{\markboth{\thesection~- ~#1}}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername~\thechapter~-~ #1}{}}
+
+\fancypagestyle{firstpages_wc}{
+ \fancyhf{}								% Clear header and footer
+ \renewcommand{\headrulewidth}{0.4pt}	% Line at the header visible
+ }
+
+\fancypagestyle{standard}{%
+  \fancyhf{}							% Clear header and footer
+  \fancyhead[L]{\leftmark\hspace{0.15cm}}
+  \fancyhead[R]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}	% Line at the header visible
+  }
+
+\fancypagestyle{plain}{					% Redefine the plain page style
+  \fancyhf{}							% Clear header and footer
+  \fancyhead[R]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}	% Line at the header visible
+  }
+
+
+
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} FUßNOTE
+\usepackage[bottom,flushmargin]{footmisc} % Fussnoten am Seitenende
+\interfootnotelinepenalty=10000			%prevent multiline issues
+		% achtung kann aber andere nebeneffekte haben
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} SCHRIFTART
+%\usepackage{times}		      % Change Font
+%\fontfamily{ptm}
+%\selectfont
+
+\usepackage[T1]{fontenc} % Ligaturen richtig im PDF rendern
+\usepackage{lmodern} % Schrift, die mehr Zeichen unterstützt
+
+\makeatother
+
+\usepackage{titlesec} %needs to be installed
+\titleformat{\chapter}{\normalfont\Large\bfseries}{\thechapter}{16pt}{\Large}
+\titleformat*{\section}{\fontsize{14}{16}\bfseries}
+\titleformat*{\subsection}{\fontsize{12}{14}\bfseries}
+\titleformat*{\subsubsection}{\fontsize{12}{14}\bfseries}
+
+\usepackage[font={footnotesize}]{caption}
+
+\usepackage[numbers, square]{natbib}   % Für \setlength{\bibsep}{3mm}; square macht eckige Klammern
+\setlength{\unitlength}{1cm}		   % Größenanpassungen
+\setlength{\oddsidemargin}{0.3cm}
+\setlength{\evensidemargin}{0.3cm}
+\setlength{\textwidth}{15.5cm}
+\setlength{\topmargin}{-1.5cm}
+\setlength{\textheight}{23cm}
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} ABSTÄNDE
+\titlespacing{\chapter}{0pt}{-2em}{6pt}		%\titlespacing*{{command}{left}{before title}{after title}}
+\titlespacing{\section}{0pt}{4pt}{2pt}
+\titlespacing{\subsection}{0pt}{4pt}{2pt}
+
+
+%\usepackage{enumitem}
+%\setlist[itemize]{topsep=6pt}
+%\setlist[enumerate]{topsep=6pt}
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} GRAFIKEN
+\usepackage[pdftex]{graphicx} % Einbindung von Grafiken (pdf, png, jpg)
+\usepackage{float}            % bietet Option [H] für bombenfestes Verankern
+\usepackage{pdfpages}         % für die Einbindung kompletter pdf-*Seiten*
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} TABELLEN
+\usepackage{array}            % für Tabellen: bindet tabular-Umgebung ein
+\usepackage{longtable}
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} FORMELN
+\usepackage{amstext}          % für Klartext via \text{} in Formeln
+\usepackage{amsfonts}         % für komplexere Formeln (Mengensymbole ...)
+\usepackage{amssymb}          % für komplexere Formeln (Mengensymbole ...)
+\usepackage{bm}               % bold math, für \bm{}
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} LISTINGS
+\usepackage{amssymb,amsmath}			% Listing configs
+\usepackage{listings}
+\usepackage{courier}
+
+\lstset{%
+	language=[Sharp]C,
+	keywords={abstract, as, base, bool, break, byte, case, catch, char, checked, class, const, continue, decimal, default, delegate, do, double, else, enum, 				  event, explicit, extern, false, finally, fixed, float, for, foreach, goto, if, implicit, in, in (generic modifier), int, interface, internal, is, 			  lock, long, namespace, new, null, object, operator, out, out (generic modifier), override, params, private, protected, public, readonly, ref, 				  return, sbyte, sealed, short, sizeof, stackalloc, static, string, struct, switch, this, throw, true, try, typeof, uint, ulong, unchecked, unsafe, 			  ushort, using, virtual, void, volatile, while},
+	basicstyle  = \fontfamily{pcr} \fontsize{10pt}{12pt} \selectfont \singlespacing ,
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=10pt,
+	backgroundcolor=\color{white},
+	tabsize=4,
+	showspaces=false,
+	showstringspaces=false,
+	captionpos=b,
+	breaklines=true
+   }
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} VERZEICHNISSE
+
+\usepackage{makeidx}          % Package zur Indexerstellung
+\usepackage{multicol}         % zur Indexerstellung in zwei Spalten
+\usepackage[printonlyused]{acronym}
+
+\makeindex 					  % erstelle einen Index bzw. ein Sachverzeichnis)
+
+\usepackage{nomencl}		  % Für Abkürzungen
+\usepackage[printonlyused]{acronym}
+
+\bibliographystyle{myIEEEtran} 			  % Literaturverzeichnis mit BibTeX
+
+\setlength{\bibsep}{3mm}                  % Abstände im Litverzeichnis
+\usepackage[fixlanguage]{babelbib}
+   \selectbiblanguage{english}
+   \setbtxfallbacklanguage{english}
+   \PassOptionsToPackage{english}{babel}
+   
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} FARBEINSTELLUNGEN
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{darkred}{rgb}{0.7,0.0,0.0}
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} TEXTEINSTELLUNGEN
+\usepackage[utf8]{inputenc}   % Zeichensatz, ermöglicht die direkte Eingabe von Umlauten im Editor
+\usepackage[english]{babel}   % Silbentrennung nach der neuen deutschen Rechtschreibung, z.B.: Sys-tem
+\usepackage{enumerate}        % verbessert Aufzählungen
+\usepackage{parskip}          % zw. Absützen: eine knappe Leerzeile statt hängender Einzüge
+\usepackage[right]{eurosym}   % Eurosymbol
+\usepackage{xcolor}           % farbiger Text
+\sloppy                       % großzügiger Zeilenumbruch -> keine rechts rausragenden Zeilen mehr
+\usepackage{verbatim}		  % Mit verbatim umschlossener Text, der Latex Befehle enthält wird so wie er ist ausgegeben
+\hyphenation{Samm-lung-en Samm-lung Stau-beck-en Vor-na-me-in-i-ti-al Nach-na-me Kurz-be-zeich-nung deutsch-spra-chige deutsch-sprachig Screen-shot Screen-shots schluss-end-lich Schluss-end-lich Make-In-dex Da-tei-name Da-tei-namen Ur-instinkt Ur-instinkte}				  % Silbentrennung
+
+\expandafter\def\expandafter\quote\expandafter{\quote \singlespacing}		% 3-Zeilige Zitate mit einfachem Zeilenabstand
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\itshape}									    % 3-zeilige Zitate sind kursiv, braucht etoolbox
+
+
+%\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{} SONSTIGES
+\usepackage[hyphens]{url}     % für \url{http://www}, Option hyp erlaubt auch Umbruch nach "-"
+\usepackage{nameref}
+\usepackage{epstopdf}
+\usepackage{caption}
+
+\usepackage[pdftex, pdfusetitle, hidelinks]{hyperref}
+
+\usepackage[english]{cleveref}	% für bessere Verwendung von Referenzen
+
+\hypersetup{
+pdftitle={\Title},
+pdfauthor={\Author},
+pdfkeywords={\Keywords},
+hidelinks
+}
+
+
+
+%\end{}

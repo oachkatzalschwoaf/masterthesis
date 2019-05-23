@@ -1,0 +1,31 @@
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+The following chapter presents a brief summary of the thesis' findings and subsequently provides an outlook of potential future work based on these results.
+
+\section{Summary}
+
+This thesis has presented methods for protein homology detection with \ac{pHMM} using secondary structure information. The key tasks were to determine secondary structure information from primary or tertiary structure, build a \ac{pHMM} using both primary and secondary structure information, and extend the scoring methods to make use of secondary structure information. These steps were implemented in the software package HMModeler. 
+
+Chapter \ref{ch:selectedBG} introduced the biological background of proteins. The discussion included the fundamentals of proteins, their composition by chains of amino acid residues, and their structural levels. Furthermore, relevant databases containing different levels of protein information were introduced. Finally, the statistical model \ac{pHMM} for analyzing proteins was presented.
+
+
+
+Chapter \ref{ch:PSD} focused on methods for determining the different structural levels of proteins. This covered protein sequencing and experimental methods for determining the three-dimensional structure on an atomic level. Subsequently, the secondary structure annotation method \ac{DSSP}, which relies on the tertiary structure, was explained. A special focus was placed on secondary structure prediction methods. These include the two neural-network-based methods \ac{PHD} and SPINE-X, and MetaSSPred, which improves the accuracy of SPINE-X using \acp{SVM}.
+
+
+The fourth chapter explained the implementation in the software package HMModeler. In particular, the changes made to the workflow to make use of secondary structure information were discussed. This procedure starts with processing the input data by gathering the secondary structure from the three-dimensional structure using \ac{DSSP}, if available, or otherwise through prediction using the primary structure. Subsequently, the methods for training the \ac{pHMM} were covered. This discussion presented the additional emission frequencies for the secondary structure and methods for mixing both the primary and secondary structure frequencies. Finally, the Viterbi and forward algorithms used for aligning sequences against the pHMM were extended by an additional threshold, which determines whether the mixed probabilities or just the primary structure are used.
+
+
+Finally, in Chapter \ref{ch:evaluate}, the implementation was tested using the ASTRAL \ac{SCOP} database and a set of 69 \acp{MSA} representing different superfamilies. The \acp{MSA} were trained against the database using the different methods with varying parameters for generating the emission frequencies. The improvements of both scoring algorithms for the different score types were analyzed and compared with the scores from the old implementation. In addition, methods for further processing the scores using \ac{PCA} were tested. This showed that a linear combination of the reverse-corrected scores from the scores with and without secondary structure information can further increase the distinguishability of the target family against the remaining database. Finally, the weighting methods and parameters that were discussed were compared. For this task, MATLAB was used to train an \ac{SVM} classifier with varying thresholds for generating \ac{ROC} curves for each \ac{MSA} score. Compared to the old implementation using only the primary structure, most scores were improved by including secondary structure information. The best results were achieved with the weighting method in (\ref{eq:mix2}) with a scale factor of 5.
+
+
+
+\section{Outlook}
+
+
+This thesis has presented improvements for the implementation of using secondary structure information for superfamily classification. For current tests, the manually curated \ac{SCOP} database has been used. Future developments should include more recent databases, such as the automatically curated \ac{SCOPe}.
+
+
+Certain parts of the code, such as the scoring algorithm, are already implemented in the fast low-level language C++. Other time-consuming calculations, like the processing of the database or the handling of secondary structure information, should also be moved from Python to C++. 
+Furthermore, the sequential processing of each sequence in the database can be improved by parallel computing over multiple CPU or GPU cores.

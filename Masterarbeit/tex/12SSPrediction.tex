@@ -1,0 +1,140 @@
+
+
+\section{Secondary Structure Estimation}
+\label{ssec:SSPred}
+
+Secondary structure prediction methods rely on the annotation of known three-dimensional data, as the annotated structure serves as the training input for prediction methods. The accuracy of secondary structure prediction methods is typically measured in the percentage of correctly assigned elements for each of the three main elements, namely  $\alpha$-helix (Q$_H$), $\beta$-strand (Q$_E$) and turn (Q$_C$), and in particular the overall three-state accuracy (Q$_3$).
+
+Early methods of secondary structure prediction, such as the \textit{Chou-Fasman method} developed in 1978, used an approach which assigns the classes $\alpha$-helix and $\beta$-strand based on statistical properties on the amino acid residues. The later \textit{GOR method} includes statistical principles based on Bayes' theorem to include the conformation probability of the chain.
+While early implementations of GOR and Chou-Fasman  only reached a Q$_3$ accuracy of 50--60\,\%, the current implementation of GOR V reaches a Q$_3$ accuracy of 73.5\,\% \citep{Sen.2005}. 
+
+Modern approaches make use of statistical methods like \acp{NN}, \acp{SVM} and \acp{HMM}. 
+These methods use black-box approaches, where the path from the sequence to the structure is not obvious, due to the model being trained using machine learning.  These methods reach a Q$_3$ accuracy of > 80\,\%. With growing training data from new experimentally determined tertiary structures, this value is also increasing over time. Nevertheless, in theory the average  Q$_3$ accuracy limit for predicting secondary structure is approximately    88\,\% \cite{Rost.2003}.
+
+In what follows, methods for determining secondary structure information will be explained. First, the secondary structure annotation method  \ac{DSSP}, which uses the tertiary structure, will be described.
+Subsequently, secondary structure prediction approaches based on the primary structure will be discussed. These include the state-of-the-art methods \ac{PHD}, SPINE-X and MetaSSPred.
+
+
+
+
+\subsection{The Dictionary of Secondary Structures in Proteins (DSSP)}
+\label{sec:DSSP}
+
+The \ac{DSSP}, described in \cite{Kabsch.1983}, is a method developed by Kabsch and Sander to determine the secondary structure of a protein based on the atomic coordinates of the protein. It uses pattern recognition in hydrogen bonding and specific geometric features to assign one of eight secondary structures (see Table \ref{tab:DSSPStruct})  to each residue in a protein. These eight types can be grouped into three major components: helix (H, G, I), strand (B, E) and loop (T, S, C). 
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|l|}
+		\firsthline
+		 3-state SS	& DSSP	  & Secondary Structure  \\ \hline
+				& H       &  $\alpha$-helix \\
+			$\alpha$ (H)	& G       &  $3_{10}$ helix \\	
+				& I       &  $\pi$-helix \\	\hline
+
+				$\beta$ (E) & \begin{tabular}{@{}c@{}}B \\ E\end{tabular} &
+				\begin{tabular}{@{}l@{}}residue in isolated $\beta$ bridge \\ extended strand \end{tabular} \\ \hline
+
+				& T       &  hydrogen bounded turn \\	
+		L (C) & S       &  bend \\
+				& C 		&  loop or irregular \\\hline
+	\end{tabular}
+	\caption[Structure types determined by DSSP.]{Structure types determined by DSSP \cite{Kabsch.1983}.}
+	\label{tab:DSSPStruct}
+\end{table}
+
+
+Hydrogen bonds are determined by approximation of the interaction energy between the $NH$ group of one amino acid and the $CO$ group of another spatially proximate amino acid. The total electrostatic energy $E$, measured in $\frac{kcal}{mol}$, is calculated according to (\ref{eq:dssp}), where $r_{AB}$ represents the inter-atomic distance of the two atoms A and B measured in \ac{angstrom}, the electron charges  $q^+ = 0.2\,e$ and $q^- = -0.42\,e$ between $NC$ and $OH$, respectively, and a dimensional factor $f = 332 \,\AA \frac{kcal}{e^2}$.
+
+\begin{equation}
+E = fq^{+} q^{-}( \frac{1}{r_{ON}} + \frac{1}{r_{CH}} - \frac{1}{r_{OH}} - \frac{1}{r_{CN}})
+\label{eq:dssp}
+\end{equation}
+
+When $E < -0.5\,\frac{kcal}{mol}$, it is assumed that this position forms a hydrogen bond. After determining  all hydrogen bonds, the secondary structure is assigned by identifying the basic hydrogen binding patterns. For example, the $\alpha$-helix is identified by two consecutive hydrogen bonds between amino acid residues of the backbone that are four positions  apart. 
+The $3_{10}$-helix and $\pi$-helix are variations with hydrogen bond distances of three and five residues, respectively.  
+The two types of beta strands are stretched chains arranged for repeating hydrogen bonds with other strands
+
+There are many other annotation methods to annotate secondary structure. 
+For example, STRIDE uses a similar variation of hydrogen-bond patterns, but also takes into account the dihedral angles $\phi$ and $\psi$ of the protein backbone \cite{Frishman.1995}.
+In contrast, DEFINE uses a  different approach, by comparing only the coordinates of the central $C_\alpha$ atoms with linear distance masks of the different ideal secondary structures \cite{Richards.1988}. 
+The secondary structure outputs from these methods are not unique. By comparing the results reduced to the three major components, the two similar approaches \ac{DSSP} and STRIDE agree on 95\,\% of all positions. Including DEFINE, all three methods have only  75\,\% agreement  \cite{Cuff.1999}. 
+While there are more modern and complex approaches than \ac{DSSP} available, this approach has become the standard method for most secondary structure annotation tasks. In \cite{Wilman.2014}, Wilman explains the general acceptance of \ac{DSSP} based on the simplicity of the algorithm and the availability of the code and software under the permissive non-copyleft free software license  Boost\footnote{Boost Software License: \url{https://www.boost.org/LICENSE_1_0.txt} (Accessed: July 18, 2018).}. 
+
+
+\subsection{Profile Network from HeiDelberg (PHD)}
+
+
+The secondary structure prediction method \acf{PHD}, introduced in \cite{Rost.1993b} by Rost and Sander, was the first method to predict secondary structure with an accuracy greater than 70\,\% from the primary structure alone.  
+
+The \ac{PHD} method uses three steps to predict the secondary structure. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the first step, sequences with a high sequence similarity are obtained and aligned to an \ac{MSA}. This includes additional evolutionary information, as sequences with a high sequence similarity are likely to share the same function, and thus a similar structure. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the second step, the probability for each amino acid in the \ac{MSA} is fed into a two-level feed-forward \ac{NN} system, previously trained through  back-propagation with proteins of known structures. 
+In the first level, for each position in the sequence, a sliding window of 13 consecutive amino acids is fed. This is done with the frequency of the 20 amino acids and an additional position for padding of both ends of the sequence.
+The first \ac{NN} level outputs a likelihood of the central residue being a helix, sheet, or loop.  
+The independently trained second \ac{NN} level receives the output from the first level and inputs the likelihood of the three states with a sliding window of 17 elements. The second-level output is an optimized likelihood for the same three major secondary structure elements. 
+The highest value for each element of the \ac{NN} determines the secondary structure. A reliability index for each residue is set with the difference between the two highest values. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The final step is a simple filter to remove obvious errors, like  helices shorter than three residues long.
+
+Secondary structure prediction with \ac{PHD} is available online with the PredictProtein web server\footnote{PredictProtein web server: \url{https://www.predictprotein.org/} (Accessed July 18, 2018).} or locally through the Debian Linux package PROFPhd. The expected accuracy for the three major secondary structure types is 76\,\% on average \cite{Rost.2004}.
+
+
+\subsection{SPINE-X}
+\label{ssec:spinex}
+
+Another high-accuracy secondary structure prediction method is SPINE-X  by Faraggi et al., as described in \cite{Faraggi.2012}.
+
+In addition to the secondary structure, SPINE-X also predicts the \ac{ASA} and the  dihedral  angles $\phi$ and $\psi$ for each amino acid residue. 
+The \ac{ASA} is the surface area of an amino acid that can interact with a solvent and is measured in square \AA . 
+SPINE-X uses an iterative approach of six \acp{NN}, each fed with additional data predicted from the previous steps. 
+Like \ac{PHD}, SPINE-X includes evolutionary information about the sequence by generating a \ac{PSSM}, which describes column-wise sequences similar to \acp{MSA}. The aligned sequences are collected by PSI-BLAST, a tool for collecting and aligning distant relatives' proteins for the query sequence (see \cite{Altschul.1998}).
+Furthermore, the \acp{NN} are also individually trained with back-propagation and make use of sliding windows. 
+
+
+The first \ac{NN} predicts the secondary structure by using the \ac{PSSM} generated  from the sequence and seven \acp{PP} for each amino acid residue as input. These \acp{PP} include hydrophobicity, volume, steric parameter, polarizability, isoelectric point, helix probability and sheet  probability (see section \ref{ssec:SSPred}).
+The secondary structure predicted from the first step, together with the \ac{PSSM} and the \acp{PP}, is fed to the second \ac{NN} and provides the \ac{ASA} for each residue.
+The third \ac{NN} uses the same properties as before and includes the \ac{ASA} in order to predict the two dihedral angles. 
+The stages before the fourth step also include the output from the last step, but without the  secondary structure predicted from the first step, in order to predict an optimized version of the secondary structure.
+Including the secondary structure in the input, the two dihedral angels are re-predicted in the fifth \ac{NN}. 
+The sixth and final \ac{NN} predicts the final secondary structure elements, based on the \ac{PSSM}, \acp{PP} and \ac{ASA} from step two and the dihedral angles from step five.
+SPINE-X predicts the secondary structure based on the eight-state \ac{DSSP} assignment. To increase accuracy, the final result is grouped into the three major types helix (H), strand (E) and coil (C) (see section \ref{ssec:backbone}).  
+
+SPINE-X reaches a Q$_3$ accuracy of 82--83.8\,\% and is available as Linux package or online through a web server\footnote{SPINE-X web server: \url{http://sparks-lab.org/SPINE-X/} (Accessed July 18, 2018).}.
+
+
+\subsection{MetaSSPred}
+\label{sec:BSSP}
+
+MetaSSPred is a secondary structure prediction method, developed in the Bioinformatics and Machine Learning Lab\footnote{Bioinformatics \& Machine Learning Lab UNO: \url{http://biomall.cs.uno.edu/} (accessed July 18, 2018).} at the University of New Orleans (see \cite{NasrulIslam.2016}). 
+
+MetaSSPred uses three binary \acp{SVM}, together also referred as cSVM, to predict the secondary structure, then combines its results with SPINE-X to improve the accuracy, especially for $\beta$-sheets. 
+While modern secondary structure prediction methods reach an average Q$_3$ accuracy of more than 80\,\%, the accuracy of each type varies greatly. In particular, $\beta$-sheet scores are likely to be far below the others. For example, while SPINE-X reaches a Q$_3$ accuracy of 82\,\%, helices are correctly predicted with a Q$_H$ of 86.6\,\%, coils with a Q$_C$ of 81.5\,\%, and sheets with a Q$_E$ of 75.3\,\% \cite{Faraggi.2012}.
+
+The \acp{SVM} are trained by 33 features for each amino acid listed in Table \ref{tab:MetaPred}. These features are assigned directly by the primary structure or gathered by the tools described below.  
+For each amino acid residue, the seven \acp{PP} as described in Section \ref{ssec:ppaa} are used. The terminal indicator marks whether the residue is one of the first or last five residues in the sequence. As in the case of SPINE-X, the \ac{PSSM} is determined by PSI-BLAST. The disorder probability is the probability that an amino acid residue in the chain does not have a well-defined three-dimensional structure and can thus arrange in several other conformations. The disorder probability is predicted by the application DisPredict (see \cite{Iqbal.2015}). 
+The two dihedral angles $\phi$ and $\psi$ are predicted by SPINE-X (see Section \ref{ssec:spinex}).
+While \ac{ASA} could also be taken from the SPINE-X prediction, the application REGAd$^3$p with its higher prediction accuracy is used \cite{Iqbal.2015_2}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|} \hline
+Feature                          & Count & Method           \\ \hline
+Amino acid (AA)                      & 1	 &    Primary Structure				\\
+\acf{PP}        & 7     &          Primary Structure           				\\
+Terminal indicator               & 1     &    Primary Structure          	\\  
+\acf{PSSM} & 20    &  PSI-BLAST       \\	  
+Disorder probability             & 1     &  DisPredict      \\
+Torsion angles ($\psi$, $\psi$) fluctuation       & 2     &  SPINE-X  \\
+\acf{ASA}          & 1     &  REGAd$^3$p    		\\ \hline
+\end{tabular}
+\caption[The 33 features used by MetaSSPred.]{The 33 features used by MetaSSPred with the methods to determine them from the primary structure \cite{NasrulIslam.2016}.}
+\label{tab:MetaPred}
+\end{table}
+
+For one of the three secondary structure classes, each \ac{SVM} predicts whether a residue belongs to the secondary structure class and returns a probability that this is the case. 
+For each residue in the sequence, the secondary structure element with the highest probability is assigned. 
+In the final step, the output from cSVM is combined with the prediction from SPINE-X. For each residue, the predicted secondary structure class is compared. 
+For all positions of cSVM where the class sheet (E) is predicted, 
+the result from cSVM will be accepted if it belongs to the class sheet, otherwise the predicted class from SPINE-X is used. 
+MetaSSPred is available as a Linux-based standalone software package\footnote{MetaSSPred package: \url{http://biomall.cs.uno.edu/software/} (accessed July 18, 2018).}.
+

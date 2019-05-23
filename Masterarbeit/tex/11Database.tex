@@ -1,0 +1,57 @@
+% ################################################################
+%%----------------------   PROTEIN Databases    ------------------
+% ################################################################
+
+\section{Protein Databases}
+
+
+Over time, more than 1,600 databases containing bioinformatic data have been created \cite{Galperin.2017}. These databases can be categorized into primary and secondary databases. Primary databases are filled with sequence or structure data derived from researchers' experimental results, whereas secondary databases are composed of data derived from primary databases and organized with additional knowledge, such as family classification.    
+
+The following sections detail the sequence database \ac{UniProtKB}, the structure database the \ac{PDB}, and the secondary database the \ac{SCOP}.
+
+\subsection{UniProtKB}
+\label{ssec:uniprot}
+
+\ac{UniProtKB}, part of the UniProt database collection, consists of two sections, \textit{TrEMBL} and \textit{Swiss-Prot}. Entries in UniProtKB provide curated information on protein sequences and their function and classification, as well as cross-references to other databases.
+
+\textit{TrEMBL} currently includes over 115 million sequences\footnote{UniProtKB/TrEMBL statistics: \url{https://www.ebi.ac.uk/uniprot/TrEMBLstats} (accessed July 18, 2018).} derived from high-throughput sequencing methods as described in Section \ref{sec:ProtSequencing}. These entries are automatically annotated by combining identical full-length proteins from one species in single records.  
+
+\textit{Swiss-Prot} provides high-level annotation, where all new entries, taken from \textit{TrEMBL}, are manually annotated and reviewed by experts, using information from the publications dealing with the sequences.
+Revised entries that have been added to \textit{Swiss-Prot} are removed from \textit{TrEMBL}. This prevents redundancy and allows interoperability of the sections. The manual annotation provides a high-quality data set with minimal redundancy for the cost of the slow processing of new entries. Swiss-Prot currently has less than 600,000 entries\footnote{UniProtKB/Swiss-Prot statistics: \url{https://www.uniprot.org/statistics/Swiss-Prot} (accessed July 18, 2018).} \cite{TheUniProtConsortium.2017}.
+
+
+\subsection{Protein Data Bank (PDB)}
+\label{sec:PDB}
+In 1971, the Brookhaven National Laboratory established the \acf{PDB} as the primary database for the three-dimensional structures of proteins, nucleic acids, and complex structures. 
+Since 2003, the PDB has been managed by multiple organizations around the world under the umbrella of the worldwide PDB (wwPDB) organization\footnote{Worldwide PDB: \url{https://www.wwpdb.org/} (accessed July 18, 2018).}, whose founding members are RCSB (USA), PDBe (Europe), and PDBj (Japan). Before a new PDB entry is added to one of their mirrored databases, the protein structure information is reviewed and annotated by one of the responsible organizations.
+
+The data in the \ac{PDB} are typically derived using methods like \ac{XRC} and \ac{NMR} spectroscopy. Protein structures are stored in the \ac{PDB} file format as three-dimensional positions of each atom together with additional data such as temperature factor, associated species and amino acid residues. Each entry published in the \ac{PDB} has a unique four-character identifier (PDB ID) \cite{BERNSTEIN.1977}.
+
+ Currently, the PDB contains over 142,000 structures\footnote{PDB - Yearly Growth of Total Structures: \url{https://www.rcsb.org/pdb/statistics/contentGrowthChart.do?content=total} (accessed July 18, 2018).} and grows in size by approximately 10\,\% annually \cite{Burley.2018}. However, compared to more than 115 million sequences in the \mbox{UniProtKB} Protein Database, three-dimensional structures are available for only a fraction of known proteins.
+
+
+\subsection{Structural Classification of Proteins (SCOP)}
+\label{sec:SCOP}
+
+
+The \ac{SCOP} database classifies proteins with known structures from the \ac{PDB} according to their evolutionary, functional, and structural relationships. Each protein in the \ac{SCOP} is classified in a hierarchical system with the four main levels of  \textit{family}, \textit{superfamily}, \textit{fold} and \textit{class} \cite{Murzin.1995}. 
+
+
+\begin{itemize}
+\item \textbf{Family} describes proteins with obvious evolutionary relationships due to high sequence similarity across the protein, or with low sequence similarity but high structural and functional similarity. 
+
+\item \textbf{Superfamily} describes families with low sequence similarity, where, based on structural or functional features, a common evolutionary origin is probable.  
+
+\item \textbf{Fold} describes superfamilies with high structural similarities, based on a similar arrangement of secondary structures and their topological connections.  
+
+\item \textbf{Class} describes folds according  to the appearance of their secondary structure, such as proteins with $\alpha$-helices only. 
+\end{itemize}
+
+
+ 
+The convention for describing protein classification is \texttt{Class.Fold.Superfamily.Family}. In this convention, the class is represented with an alphanumerical letter, while the fold, superfamily, and family are described using numbers. For example, hemoglobin, with the \ac{SID} \texttt{D1A3NA\_} is classified as \texttt{a.1.1.2}, belonging to the family \textit{globins} (2), the superfamily and fold \textit{globin-like} (1), and under the class $\alpha$-helices only (a). 
+
+
+Until version 1.73 of the \ac{SCOP}, all protein structures were manually classified. With an increasing number of protein structure publications and the subsequent growth of the \ac{PDB}, manual classification became too slow to classify all new proteins.  
+Therefore, in later versions and with the introduction of the \ac{SCOPe}, automated processes were introduced \cite{Fox.2014b}.
+

@@ -1,0 +1,71 @@
+\chapter{Protein Structure Determination}
+\label{ch:PSD}
+
+This chapter covers the fundamental methods of protein structure determination on its different levels. It begins with protein sequencing for determining the primary structure of a polypeptide. The discussion proceeds with the two major methods for determining the tertiary structure, namely \ac{XRC} and \ac{NMR}. Finally, methods for secondary structure determination are described, where the secondary structure is either derived from the tertiary structure or predicted from the primary structure.
+
+
+\section{Protein Sequencing}
+\label{sec:ProtSequencing}
+
+Protein sequencing is the process of determining the primary structure of a polypeptide. Protein sequencing is the first essential step for gathering more information about the structure and function of a protein. 
+Two major methods for protein sequencing are Edman degradation and mass spectrometry.
+
+Edman degradation, developed by Pehr Edman in 1950, determines each amino acid residue through a repetitive approach, where the peptide bond of the first amino acid at the N-terminus of the peptide chain is labeled and chemically separated from the chain while keeping the remaining bonds untouched. The separated residue is identified  by procedures such as ion exchange chromatography. Ion exchange chromatography separates ionizable molecules according to differences in their total charge by increasing the ionic force of the sample medium and measuring the strength needed for each element to separate. The Edman degradation method is only reliable for short peptides up to 40--60 residues. Longer proteins must be analyzed by fragmentation, where the polypeptide is split into shorter sections and these sections are analyzed one after another \cite{Berg.imp.2002}.
+
+
+Another approach is protein sequencing by mass spectrometry. Mass spectrometry uses the spectrum of a peptide to determine its sequence according to the different masses of the 20 amino acid residues. This is done by ionizing the protein molecules in a strong electric field. The ionized particles can then be detected by a mass analyzer, which provides the mass-to-charge ratio for each ion. The mass-to-charge ratio over the induced electrical energy produces a mass spectrum. The amino acid sequence can be determined from this mass spectrum by fragmentation of the molecules and also by computational analysis and matching with databases \cite{Wysocki.2005}.
+
+With high-throughput variations of mass spectrometry such as tandem mass spectrometry or protein sequencing machines that automatically perform the process of Edman degradation, the amino acid sequence can be determined within hours \cite{Nelson.2013}.
+ 
+
+\section{X-ray crystallography}
+
+The first high-resolution three-dimensional protein structure myoglobin was identified in 1958 by
+John Kendrew using \acf{XRC}, for which he received the 1962 Nobel Prize in Chemistry \cite{kendrew1958three}. Ninety percent of the determined protein structures in the PDB have been solved using \ac{XRC} \cite{Burley.2018}.  
+
+X-ray crystallography is a form of microscopy that uses electromagnetic radiation beams.  
+These beams have a wavelength of around 1\,\ac{angstrom}\footnote{\AA ngstrom (\AA) is a unit to measure the wavelength of light, 1\,\AA \, equals to $10^{-10}$\,meter or 0.1\,nanometer.}. For comparison, the inter-atomic distances of protein crystals are approximately  1--3\,\ac{angstrom}. 
+The X-ray beams are diffracted by the protein's electrons when passing the crystal. The resulting diffraction pattern is collected by digital \ac{CCD} image sensors for further processing. 
+Several measurements with different angles and intensities produce multiple diffraction patterns, from which a three-dimensional electron density map can be computed. The density map provides direct information about the mean positions and size of the atoms and the length and types of chemical bonds, among other aspects, which enables its primary structure to be modelled into its three-dimensional structure.
+
+In order to obtain usable results from the protein molecules, the sample has to be purified and set in a stable crystal state. Protein molecules in their natural form are not stagnant, as there is always movement, rotation and bending in the structure. In addition, the x-ray radiation during the measurement influences the sample. A \mbox{high-quality} crystal is composed of a regular repeating arrangement of proteins, with a size in all dimensions of at least 20\,\textmu m that can extend up to and beyond 0.1\,mm. 
+
+
+
+Protein crystallization is the crucial part of \ac{XRC} which determines whether a protein structure can be determined using this approach. There is no straightforward approach for crystallization, as each new protein may respond differently. The path from a protein to a usable crystal often involves an extensive trial and error approach, which can last months. Furthermore, some proteins do not form crystals at all, without any indication why this is the case 
+\cite{McPherson.2014}. 
+There are several different physical, chemical, and biochemical factors affecting the crystallization process. For example, the  earth's gravity force can prevent crystals from growing to the required size. Experiments in microgravity have in many cases improved the size and quality of protein crystals. Currently, on a regular basis, protein samples that fail to grow crystals with the required quality and size are transported to the International Space Station (ISS), where the crew continues to search for usable crystals\footnote{NASA Protein Crystals in Microgravity: \url{https://www.nasa.gov/mission_pages/station/research/benefits/mab} (accessed July 18, 2018).}. However, these experiments presuppose a certain degree of crystallization success on Earth, as the process must be highly automated and practicable for the ISS crew to be able to implement it  \cite{McPherson.2015}. 
+
+
+\section{Nuclear Magnetic Resonance Spectroscopy}
+
+\acf{NMR}, which has been used to determine 
+9\,\% of protein structures in the \ac{PDB}, is the second-most-used application for identifying the \mbox{three-dimensional} structures of proteins  \cite{Burley.2018}.
+
+
+This method makes use of the quantum-mechanical property of subatomic particles known as spin, which can be thought of as a rotation around the particle's own axis. Atomic nuclei with an odd number of protons and/or neutrons have spin, while nuclei with even numbers of these particles have no spin. Nuclei without spin cannot absorb or emit electromagnetic radiation, and therefore cannot be used for \ac{NMR}. However, most nuclei in proteins, such as those in the backbone ($^2$H, $^{13}$C, $^{15}$N, $^{17}$O), do have spin.
+
+ The spinning of the nucleus generates a nuclear magnetic moment. When an external magnetic field is applied, the nucleus acts like a magnetic dipole and can orient itself in two different spin states, referred to as $\alpha$ and $\beta$. 
+The $\alpha$ state is the preferred orientation in terms of energy, where the magnetic moment matches with the applied magnetic field. The orientation can be reversed to the $\beta$ state by irradiating the nucleus with an additional electromagnetic radiation frequency. The so-called resonance frequency is equal to the energy difference needed for the nucleus to switch its state and is directly proportional to the magnetic field applied.
+ 
+By varying the frequency while maintaining a static magnetic field or vice versa, a resonance spectrum for a molecule can be obtained. The resonance spectrum indicates the energy necessary to put various nuclei in resonance. Each nucleus has its own characteristic resonance frequency, for example $^1$H with  approximately 500\,MHz and $^{13}$C with 126\,MHz. 
+However, the resonance frequency of a single nucleus also varies at different locations in the molecule, due to various interactions between other subatomic particles. For example, negatively charged electrons have a so-called shielding effect, which reduces the force from the applied magnetic field that is absorbed by the nearby nuclei. 
+This effect also reduces the electromagnetic radiation intensity needed to spin the nucleus  in 
+ $\beta$ state.
+Furthermore, the interaction from one nucleus with its surrounding nuclei can be measured by emitting frequency pulses that only bring specific nuclei in resonance. The information obtained is used to calculate the three-dimensional structure of a protein through computational analysis and molecular modeling procedures \cite{Edwards.2009}. 
+
+An advantage of \ac{NMR} over \ac{XRC} is that the protein can be analyzed while in solution. Therefore, \ac{NMR} can be used on proteins that refuse to form crystals. 
+The liquid form also provides information about the protein's stability and its dynamic processes, as the protein has freedom to move. However, the fluid state also impacts the protein's stability, as its structural integrity must be maintained over the entire experiment. The movement of the protein in solution also restricts the size of the protein, in most cases to less than  30\,kDa\footnote{Dalton (Da) is a unit to measure atomic mass, 1\,Da is equal to 1/12 the mass of a single carbon-12 atom. } or on average 250 amino acid residues \cite{Milo.2016}.
+Furthermore, \mbox{high-resolution} \ac{NMR} spectrometers are relatively expensive, as the resolution is directly related to the magnetic field strength. To create the magnetic field necessary for protein structure determination, \ac{NMR} spectrometers  need expensive \mbox{liquid-helium-cooled} superconducting magnets.
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+\setcounter{page}{0}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction}
+\label{ch:Introduction}
+
+
+\thispagestyle{standard}
+\pagestyle{standard}
+
+
+Proteins are the essential building blocks of all forms of life. They can be found in all living organisms and play a key role in different functions of life. All proteins are made up of one or more chains arranged together in specific amino acid sequences. Although these sequences are built from a set of just 20 different elements, they can arrange in an innumerable number of configurations. With regard to the human body, there are more than 20,000 different proteins. 
+
+\section{Research purpose}
+
+Understanding the function of  proteins is a crucial task in bioinformatics. Each new discovery of a protein structure and its function provides more knowledge about how the macro-molecular mechanisms of life work. This knowledge is important in many different areas, such as the  pharmaceutical industry, where it is necessary to know the shape of viruses or bacteria in order to design drugs to counter them. Another application is biotechnology, which aims to develop new technologies, such as \mbox{self-assembling} organic solar cells. 
+
+Although at present  determining protein sequences is a simple and straightforward task, it produces an enormous amount of protein sequence data. Gaining information about the three-dimensional shape of the protein is a slow and strenuous task. Several prediction methods based on the sequence data already provide a good indication of the structure of certain parts of a protein. Nevertheless, prediction of the complete structure remains an unsolved problem. 
+One approach to gain further information about the function of a protein is to find evolutionary connections, also known as homology, to other known structures. Proteins with the same functions are likely related to each other, as they might have originated from a common ancestor. These connections can be inferred according to similarities in the sequence and structure and thus according to similar functions. However, the conservation of two homologous sequences is not always clear, as due to mutations several amino acids or even longer sections in the chain may have changed over generations. 
+
+
+
+
+This thesis investigates the use of \ac{pHMM} in protein family classification. Specifically, the common approach, which uses only the primary structure to build a \ac{pHMM} and score sequences against it, will be extended to make use of secondary structure information.  
+There are particular cases in which protein homology is not well presented by sequence similarity in certain parts of the protein. It is expected that stability, with respect to the secondary structure, increases the classification quality.
+
+
+\section{Overview}
+Chapter \ref{ch:selectedBG} provides an overview of the areas of bioinformatics relevant to this thesis. These include topics such as protein composition, protein structure and function, and the fundamentals of \ac{pHMM}.
+
+Chapter \ref{ch:PSD} discusses protein structure determination on its different levels. A special focus is on methods for secondary structure determination.
+
+In Chapter \ref{ch:implement}, the implementation of various methods for \ac{pHMM} using secondary structure information in the software package \textit{HMModeler} is described.  Based on the theoretical background, this chapter covers the steps from an \ac{MSA}, determining secondary structure, building a \ac{pHMM} and scoring sequences against it.
+
+Chapter \ref{ch:evaluate} evaluates the implementation based on various datasets. In particular, different methods for including secondary structure information with various parameters are compared to one another.
+
+Finally, Chapter  \ref{ch:conclusion} concludes by providing a short summary of the thesis' findings.
+
