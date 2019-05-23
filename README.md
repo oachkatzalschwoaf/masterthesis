@@ -1,2 +1,6 @@
-# masterthesis
+# Master Thesis
 Expert Tuned Profile Hidden Markov Models for Primary and Secondary Structure Based Homology Prediction in Bioinformatics
+
+# Abstract
+
+Protein homology classiﬁcation is an important task to better understand proteins whose three-dimensional structure and function are not obvious. Current methods that rely on the primary structure of a protein do not always ﬁnd distant homologous relationships between proteins. This thesis examines the usage of secondary structure information in proﬁle Hidden Markov Models to improve the classiﬁcation accuracy in protein family prediction. This is done by extending the emission frequencies of the primary structure by secondary structure frequencies. A generalized mixed frequency set is generated using optimized weighting techniques. The secondary structure is determined by the three-dimensional structure, if available, or predicted from the primary structure. To assess the eﬀectiveness of the diﬀerent weighting methods, the implementation has been tested with 69 selected sequence alignments, representing distant related families. These sequences have been scored against the SCOP database to determine the accuracy of ﬁnding distant homologous relationships between proteins. Results show that the integration of secondary structure information improves the accuracy of homology prediction.
